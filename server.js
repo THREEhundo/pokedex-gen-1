@@ -16,7 +16,6 @@ app.get('/api/pokedex', (req, res) => {
 // GET /api/pokedex/:id
 app.get('/api/pokedex/:name', (req, res) => {
 	const name = req.params.name.toLowerCase()
-	console.log(pokedex.find(pokemon => pokemon.name.toLowerCase() === name))
 
 	if (pokedex.find(pokemon => pokemon.name.toLowerCase() === name)) {
 		const singleCard = pokedex.find(
