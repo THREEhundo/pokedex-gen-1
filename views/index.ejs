@@ -4,9 +4,28 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Pokedex</title>
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+	<h1>Trainers</h1>
+	<ul class="trainers">
+		<% trainers.forEach(trainer => { %>
+		<li class="trainer">
+			<span><%= trainer.name%></span> 
+			<span><%= trainer.gym%></span> 
+			<span><%= trainer.likes %></span>
+			<span class='fa fa-thumbs-up'></span>
+            <span class='fa fa-trash'></span>
+		</li>
+		<% }) %>
+	</ul>
+	<h2>Add a trainer:</h2>
+	<form action="/addTrainer" method="POST">
+		<input type="text" name="trainer" placeholder="Trainer Name">
+		<input type="text" name="gym" placeholder="Gym Name">
+		<input type="submit">
+	</form>
 	<h1>Pokedex</h1>
 	<ul class="pokedex">
 		<% for( let i = 0; i < pokemon.length; i++ ) { %>
@@ -20,14 +39,13 @@
 				<span><%= pokemon[i].types && pokemon[i].types.length > 0 ? pokemon[i].types[0] + ' Type: ' : '' %></span>
 				<span><%= pokemon[i].rarity%></span>
 				<br>
-				<span class="del">delete</span>
+				<span class="del">Delete</span>
 			</li>
 		<% } %>
 		<% } %>
 	</ul>
 
-	<h2>Find a card:</h2>
-	<form action="" method="post"><input type="search" name="pokeSearch" id="pokeSearch"><input type="button" value="">Search</form>
+
 
 	<script src="js/main.js"></script>
 </body>
