@@ -1,7 +1,22 @@
 const express = require('express')
 const app = express()
 const pokedex = require('./base1')
+const MongoClient = require('mongodb').MongoClient
 const PORT = 8000
+require('dotenv').config()
+
+let db,
+	dbConnectionStr = process.env.DB_STRING,
+	dbName = 'pokedex'
+
+MongoClient.connect(dbConnectionStr).then(client => {
+	console.log(`Connected to ${dbName} Database`)
+	db = client.db(dbName)
+})
+
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.get('/', (req, res) => {
@@ -10,7 +25,13 @@ app.get('/', (req, res) => {
 
 // GET /api/pokedex
 app.get('/api/pokedex', (req, res) => {
-	res.json(pokedex)
+	db.collection('pokemon')
+		.find()
+		.toArray()
+		.then(data => {
+			res.render('index.ejs', { pokemon: data })
+		})
+		.catch(err => console.error(err))
 })
 
 // GET /api/pokedex/:id
